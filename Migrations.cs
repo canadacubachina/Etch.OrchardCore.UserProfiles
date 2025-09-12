@@ -1,4 +1,4 @@
-﻿using Etch.OrchardCore.UserProfiles.Indexes;
+using Etch.OrchardCore.UserProfiles.Indexes;
 using Etch.OrchardCore.UserProfiles.Services;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
@@ -42,12 +42,12 @@ namespace Etch.OrchardCore.UserProfiles
 
         public int Create()
         {
-            _contentDefinitionManager.AlterPartDefinition("ProfilePart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("ProfilePart", builder => builder
                 .WithDescription("Links content item to user.")
                 .WithDefaultPosition("0")
             );
 
-            _contentDefinitionManager.AlterTypeDefinition(Constants.ContentTypeName, type => type
+            _contentDefinitionManager.AlterTypeDefinitionAsync(Constants.ContentTypeName, type => type
                 .WithPart("ProfilePart")
             );
 

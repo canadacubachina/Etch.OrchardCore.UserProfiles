@@ -1,10 +1,9 @@
-﻿using Etch.OrchardCore.UserProfiles.Models;
+using Etch.OrchardCore.UserProfiles.Models;
 using Etch.OrchardCore.UserProfiles.Services;
 using Etch.OrchardCore.UserProfiles.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Users;
 using OrchardCore.Users.Models;
@@ -58,7 +57,7 @@ namespace Etch.OrchardCore.UserProfiles.Drivers
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(ProfilePart part, IUpdateModel updater, UpdatePartEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ProfilePart part, UpdatePartEditorContext context)
         {
             var model = new ProfilePartViewModel();
 

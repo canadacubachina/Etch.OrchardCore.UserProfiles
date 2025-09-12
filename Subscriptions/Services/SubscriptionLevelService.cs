@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Etch.OrchardCore.UserProfiles.Subscriptions.Models;
 using Etch.OrchardCore.UserProfiles.Subscriptions.Settings;
 using OrchardCore.ContentManagement.Metadata;
@@ -26,9 +27,9 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions.Services
 
         #region Implementations
 
-        public SubscriptionLevelPartSettings GetSettings(SubscriptionLevelPart subscriptionLevelPart)
+        public async Task<SubscriptionLevelPartSettings> GetSettings(SubscriptionLevelPart subscriptionLevelPart)
         {
-            var contentTypeDefinition = _contentDefinitionManager.GetTypeDefinition(subscriptionLevelPart.ContentItem.ContentType);
+            var contentTypeDefinition = await _contentDefinitionManager.GetTypeDefinitionAsync(subscriptionLevelPart.ContentItem.ContentType);
             var contentTypePartDefinition = contentTypeDefinition.Parts.FirstOrDefault(x => string.Equals(x.PartDefinition.Name, nameof(SubscriptionLevelPart), StringComparison.Ordinal));
             return contentTypePartDefinition.GetSettings<SubscriptionLevelPartSettings>();
         }
@@ -38,6 +39,6 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions.Services
 
     public interface ISubscriptionLevelService
     {
-        SubscriptionLevelPartSettings GetSettings(SubscriptionLevelPart subscriptionLevelPart);
+        Task<SubscriptionLevelPartSettings> GetSettings(SubscriptionLevelPart subscriptionLevelPart);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Etch.OrchardCore.UserProfiles.Grouping.Models;
+using Etch.OrchardCore.UserProfiles.Grouping.Models;
 using Microsoft.AspNetCore.Mvc;
 using OrchardCore.ContentFields.ViewModels;
 using OrchardCore.ContentManagement;
@@ -50,7 +50,7 @@ namespace Etch.OrchardCore.UserProfiles.GroupField.Controllers
             var results = await resultProvider.Search(new ContentPickerSearchContext
             {
                 Query = query,
-                ContentTypes = GetProfileGroupTypes()
+                ContentTypes = await GetProfileGroupTypes()
             });
 
             return new ObjectResult(results.Select(r => new VueMultiselectItemViewModel() { Id = r.ContentItemId, DisplayText = r.DisplayText, HasPublished = r.HasPublished }));
@@ -62,10 +62,11 @@ namespace Etch.OrchardCore.UserProfiles.GroupField.Controllers
 
         #region Private Methods
 
-        private IEnumerable<string> GetProfileGroupTypes()
+        private async Task<IEnumerable<string>> GetProfileGroupTypes()
         {
-            return _contentDefinitionManager
-                .ListTypeDefinitions()
+            return (await _contentDefinitionManager
+                .ListTypeDefinitionsAsync()
+                )
                 .Where(t =>
                     t.Parts.Any(p =>
                         nameof(ProfileGroupPart).Equals(p.Name, StringComparison.OrdinalIgnoreCase)

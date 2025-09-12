@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
 using OrchardCore.Modules;
 using OrchardCore.Navigation;
 using System;
@@ -8,7 +8,7 @@ using Etch.OrchardCore.UserProfiles.Profile;
 namespace Etch.OrchardCore.UserProfiles
 {
     [Feature(Constants.Features.Core)]
-    public class AdminMenu : INavigationProvider
+    public class AdminMenu : AdminNavigationProvider
     {
         public AdminMenu(IStringLocalizer<AdminMenu> localizer)
         {
@@ -17,12 +17,12 @@ namespace Etch.OrchardCore.UserProfiles
 
         public IStringLocalizer T { get; set; }
 
-        public Task BuildNavigationAsync(string name, NavigationBuilder builder)
+        protected override ValueTask BuildAsync(NavigationBuilder builder)
         {
-            if (!string.Equals(name, "admin", StringComparison.OrdinalIgnoreCase))
-            {
-                return Task.CompletedTask;
-            }
+            //if (!string.Equals(name, "admin", StringComparison.OrdinalIgnoreCase))
+            //{
+            //    return Task.CompletedTask;
+            //}
 
             builder
                 .Add(T["Configuration"], configuration => configuration
@@ -33,7 +33,7 @@ namespace Etch.OrchardCore.UserProfiles
                     .LocalNav()
             )));
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
 }

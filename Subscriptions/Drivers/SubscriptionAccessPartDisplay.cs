@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Etch.OrchardCore.UserProfiles.Subscriptions.Models;
 using Etch.OrchardCore.UserProfiles.Subscriptions.Services;
 using Etch.OrchardCore.UserProfiles.Subscriptions.ViewModels;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 
 namespace Etch.OrchardCore.UserProfiles.Subscriptions.Drivers
@@ -45,15 +44,15 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions.Drivers
             .Location("Parts#Subscription:5");
         }
 
-        public async override Task<IDisplayResult> UpdateAsync(SubscriptionAccessPart part, IUpdateModel updater)
+        public async override Task<IDisplayResult> UpdateAsync(SubscriptionAccessPart part, UpdatePartEditorContext context)
         {
             var model = new SubscriptionAccessPartViewModel();
 
-            if (await updater.TryUpdateModelAsync(model, Prefix)) {
+            if (await context.Updater.TryUpdateModelAsync(model, Prefix)) {
                 part.SubscriptionSelection = model.SubscriptionSelection;
             }
 
-            return Edit(part);
+            return Edit(part, context);
         }
 
         #endregion

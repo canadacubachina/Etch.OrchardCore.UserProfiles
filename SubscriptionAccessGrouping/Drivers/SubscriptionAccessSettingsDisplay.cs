@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Etch.OrchardCore.UserProfiles.SubscriptionAccessGrouping.Models;
 using Etch.OrchardCore.UserProfiles.SubscriptionAccessGrouping.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +37,7 @@ namespace Etch.OrchardCore.UserProfiles.SubscriptionAccessGrouping.Drivers
 
         #region Overrides
 
-        public override async Task<IDisplayResult> EditAsync(SubscriptionAccessSettings settings, BuildEditorContext context)
+        public override async Task<IDisplayResult> EditAsync(ISite model, SubscriptionAccessSettings settings, BuildEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -52,7 +52,7 @@ namespace Etch.OrchardCore.UserProfiles.SubscriptionAccessGrouping.Drivers
             }).Location("Content:3").OnGroup(GroupId);
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(SubscriptionAccessSettings settings, BuildEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ISite site, SubscriptionAccessSettings settings, UpdateEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -68,7 +68,7 @@ namespace Etch.OrchardCore.UserProfiles.SubscriptionAccessGrouping.Drivers
                 settings.UnauthorisedRedirectPath = model.UnauthorisedRedirectPath;
             }
 
-            return await EditAsync(settings, context);
+            return await EditAsync(site, settings, context);
         }
 
         #endregion

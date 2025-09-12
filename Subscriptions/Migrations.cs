@@ -1,4 +1,4 @@
-﻿using Etch.OrchardCore.UserProfiles.Subscriptions.Models;
+using Etch.OrchardCore.UserProfiles.Subscriptions.Models;
 using Etch.OrchardCore.UserProfiles.Subscriptions.Settings;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
@@ -27,22 +27,22 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions
 
         public int Create()
         {
-            _contentDefinitionManager.AlterPartDefinition("SubscriptionPart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("SubscriptionPart", builder => builder
                 .WithDescription("Properties for subscription."));
 
-            _contentDefinitionManager.AlterTypeDefinition(Constants.ContentSubscriptionTypeName, type => type
+            _contentDefinitionManager.AlterTypeDefinitionAsync(Constants.ContentSubscriptionTypeName, type => type
                 .WithPart("TitlePart")
                 .WithPart("SubscriptionPart")
                 .Creatable()
                 .Listable()
             );
 
-            _contentDefinitionManager.AlterPartDefinition("SubscriptionLevelPart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("SubscriptionLevelPart", builder => builder
                 .Attachable()
                 .WithDescription("Add ability to add subscription level to user groups or profiles.")
             );
 
-            _contentDefinitionManager.AlterPartDefinition("SubscriptionAccessPart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("SubscriptionAccessPart", builder => builder
                 .Attachable()
                 .WithDescription("Add ability to add subscription access to content types.")
             );
@@ -52,7 +52,7 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions
 
         public int UpdateFrom1()
         {
-            _contentDefinitionManager.AlterPartDefinition("SubscriptionLevelPart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("SubscriptionLevelPart", builder => builder
                 .Attachable()
                 .WithDescription("Add ability to add subscription level to user groups or profiles.")
             );
@@ -62,7 +62,7 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions
 
         public int UpdateFrom2()
         {
-            _contentDefinitionManager.AlterPartDefinition("SubscriptionAccessPart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("SubscriptionAccessPart", builder => builder
                 .Attachable()
                 .WithDescription("Add ability to add subscription access to content types.")
             );
@@ -72,7 +72,7 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions
 
         public int UpdateFrom3()
         {
-            _contentDefinitionManager.MigratePartSettings<SubscriptionLevelPart, SubscriptionLevelPartSettings>();
+            _contentDefinitionManager.MigratePartSettingsAsync<SubscriptionLevelPart, SubscriptionLevelPartSettings>();
 
             return 4;
         }

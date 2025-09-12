@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
 using Etch.OrchardCore.UserProfiles.SubscriptionGroups.Models;
 using Etch.OrchardCore.UserProfiles.SubscriptionGroups.ViewModels;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
-using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.DisplayManagement.Views;
+using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.UserProfiles.Subscriptions.Drivers
 {
@@ -11,7 +11,7 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions.Drivers
     {
         #region Overrides
 
-        public override IDisplayResult Edit(SubscriptionGroupPart part)
+        public override IDisplayResult Edit(SubscriptionGroupPart part, BuildPartEditorContext context)
         {
             return Initialize<SubscriptionGroupPartEditViewModel>("SubscriptionGroupPart_Edit", model =>
             {
@@ -19,15 +19,15 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions.Drivers
             });
         }
 
-        public async override Task<IDisplayResult> UpdateAsync(SubscriptionGroupPart part, IUpdateModel updater)
+        public async override Task<IDisplayResult> UpdateAsync(SubscriptionGroupPart part, UpdatePartEditorContext context)
         {
             var model = new SubscriptionGroupPartEditViewModel();
 
-            if (await updater.TryUpdateModelAsync(model, Prefix)) {
+            if (await context.Updater.TryUpdateModelAsync(model, Prefix)) {
                 part.Identifier = model.Identifier;
             }
 
-            return Edit(part);
+            return Edit(part, context);
         }
 
         #endregion

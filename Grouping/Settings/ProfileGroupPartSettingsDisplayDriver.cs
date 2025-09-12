@@ -1,8 +1,8 @@
-﻿using Etch.OrchardCore.UserProfiles.Grouping.Models;
+using Etch.OrchardCore.UserProfiles.Grouping.Models;
 using Etch.OrchardCore.UserProfiles.Grouping.ViewModels;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
-using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
 using System;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace Etch.OrchardCore.UserProfiles.Grouping.Settings
     public class ProfileGroupPartSettingsDisplayDriver : ContentTypePartDefinitionDisplayDriver
     {
 
-        public override IDisplayResult Edit(ContentTypePartDefinition contentTypePartDefinition, IUpdateModel updater)
+        public override IDisplayResult Edit(ContentTypePartDefinition contentTypePartDefinition, BuildEditorContext context)
         {
             if (!string.Equals(nameof(ProfileGroupPart), contentTypePartDefinition.PartDefinition.Name, StringComparison.Ordinal))
             {
@@ -21,7 +21,7 @@ namespace Etch.OrchardCore.UserProfiles.Grouping.Settings
 
             return Initialize<ProfileGroupPartSettingsViewModel>("ProfileGroupPartSettings_Edit", model =>
             {
-                var settings = contentTypePartDefinition.Settings.ToObject<ProfileGroupPartSettings>();
+                var settings = contentTypePartDefinition.GetSettings<ProfileGroupPartSettings>();
 
                 model.Hint = settings.Hint;
                 model.Label = settings.Label;
@@ -42,7 +42,7 @@ namespace Etch.OrchardCore.UserProfiles.Grouping.Settings
 
             context.Builder.WithSettings(model);
 
-            return Edit(contentTypePartDefinition, context.Updater);
+            return Edit(contentTypePartDefinition, context);
         }
     }
 }

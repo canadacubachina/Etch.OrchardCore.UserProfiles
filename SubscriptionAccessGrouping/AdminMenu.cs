@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Etch.OrchardCore.UserProfiles.SubscriptionAccessGrouping.Drivers;
 using Microsoft.Extensions.Localization;
@@ -6,19 +6,20 @@ using OrchardCore.Navigation;
 
 namespace Etch.OrchardCore.UserProfiles.SubscriptionAccessGrouping
 {
-    public class AdminMenu : INavigationProvider 
+    public class AdminMenu : AdminNavigationProvider
     {
-        public AdminMenu(IStringLocalizer<AdminMenu> localizer) 
+        public AdminMenu(IStringLocalizer<AdminMenu> localizer)
         {
             T = localizer;
         }
 
         public IStringLocalizer T { get; set; }
 
-        public Task BuildNavigationAsync(string name, NavigationBuilder builder) {
-            if (!string.Equals(name, "admin", StringComparison.OrdinalIgnoreCase)) {
-                return Task.CompletedTask;
-            }
+    protected override ValueTask BuildAsync(NavigationBuilder builder)
+    {
+            //if (!string.Equals(name, "admin", StringComparison.OrdinalIgnoreCase)) {
+            //    return Task.CompletedTask;
+            //}
 
             builder
                 .Add(T["Configuration"], configuration => configuration
@@ -28,7 +29,7 @@ namespace Etch.OrchardCore.UserProfiles.SubscriptionAccessGrouping
                         .LocalNav()
                     ));
 
-            return Task.CompletedTask;
-        }
+        return ValueTask.CompletedTask;
+    }
     }
 }

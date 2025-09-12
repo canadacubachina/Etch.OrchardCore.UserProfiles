@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
 using Etch.OrchardCore.UserProfiles.Subscriptions.Models;
 using Etch.OrchardCore.UserProfiles.Subscriptions.ViewModels;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
-using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
+using System;
+using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.UserProfiles.Subscriptions.Settings
 {
@@ -15,7 +15,7 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions.Settings
 
         #region Edit
 
-        public override IDisplayResult Edit(ContentTypePartDefinition contentTypePartDefinition, IUpdateModel updater)
+        public override IDisplayResult Edit(ContentTypePartDefinition contentTypePartDefinition, BuildEditorContext context)
         {
             // Only show this setting on SubscriptionLevelPart
             if (!string.Equals(nameof(SubscriptionLevelPart), contentTypePartDefinition.PartDefinition.Name, StringComparison.Ordinal)) {
@@ -24,7 +24,7 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions.Settings
 
             return Initialize<EditSubscriptionLevelPartSettingsViewModel>("SubscriptionLevelPartSettings_Edit", model =>
             {
-                var settings = contentTypePartDefinition.Settings.ToObject<SubscriptionLevelPartSettings>();
+                var settings = contentTypePartDefinition.GetSettings<SubscriptionLevelPartSettings>();
 
                 model.Hint = settings.Hint;
                 model.Multiple = settings.Multiple;
@@ -39,7 +39,7 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions.Settings
 
             context.Builder.WithSettings(model);
 
-            return Edit(contentTypePartDefinition, context.Updater);
+            return Edit(contentTypePartDefinition, context);
         }
 
 

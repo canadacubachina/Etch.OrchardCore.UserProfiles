@@ -1,4 +1,4 @@
-﻿using Etch.OrchardCore.UserProfiles.Grouping.Indexes;
+using Etch.OrchardCore.UserProfiles.Grouping.Indexes;
 using Etch.OrchardCore.UserProfiles.Grouping.Models;
 using Etch.OrchardCore.UserProfiles.Grouping.Settings;
 using OrchardCore.ContentManagement.Metadata;
@@ -29,7 +29,7 @@ namespace Etch.OrchardCore.UserProfiles.Grouping
 
         public int Create()
         {
-            _contentDefinitionManager.AlterPartDefinition("ProfileGroupPart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("ProfileGroupPart", builder => builder
                 .Attachable()
                 .WithDescription("Add ability to group user profiles."));
 
@@ -43,7 +43,7 @@ namespace Etch.OrchardCore.UserProfiles.Grouping
                 .CreateIndex("IDX_ProfileGroupedPartIndex_GroupContentItemId", "GroupContentItemId")
             );
 
-            _contentDefinitionManager.AlterTypeDefinition(Constants.ContentTypeName, type => type
+            _contentDefinitionManager.AlterTypeDefinitionAsync(Constants.ContentTypeName, type => type
                 .WithPart("ProfileGroupedPart")
             );
 
@@ -58,7 +58,7 @@ namespace Etch.OrchardCore.UserProfiles.Grouping
 
         public int UpdateFrom2()
         {
-            _contentDefinitionManager.MigratePartSettings<ProfileGroupPart, ProfileGroupPartSettings>();
+            _contentDefinitionManager.MigratePartSettingsAsync<ProfileGroupPart, ProfileGroupPartSettings>();
             return 3;
         }
 

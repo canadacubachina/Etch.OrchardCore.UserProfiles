@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etch.OrchardCore.UserProfiles.Grouping.Services;
@@ -79,7 +79,7 @@ namespace Etch.OrchardCore.UserProfiles.SubscriptionAccessGrouping.Drivers
                 return false;
             }
 
-            var allowMultiple = _subscriptionLevelService.GetSettings(group).Multiple;
+            var allowMultiple = (await _subscriptionLevelService.GetSettings(group)).Multiple;
 
             // Check if we use Subscription Group Access
             var profileSubscriptionGroupAccess = profile.ContentItem.As<SubscriptionGroupAccessPart>();

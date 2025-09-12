@@ -1,8 +1,8 @@
-﻿using Etch.OrchardCore.UserProfiles.GroupOwnership.Models;
+using Etch.OrchardCore.UserProfiles.GroupOwnership.Models;
 using Etch.OrchardCore.UserProfiles.GroupOwnership.ViewModels;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
-using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
 using System;
 using System.Threading.Tasks;
@@ -15,7 +15,7 @@ namespace Etch.OrchardCore.UserProfiles.GroupOwnership.Drivers
 
         #region Edit
 
-        public override IDisplayResult Edit(ContentTypePartDefinition contentTypePartDefinition, IUpdateModel updater)
+        public override IDisplayResult Edit(ContentTypePartDefinition contentTypePartDefinition, BuildEditorContext context)
         {
             if (!IsProfileGroupOwnership(contentTypePartDefinition))
             {
@@ -44,7 +44,7 @@ namespace Etch.OrchardCore.UserProfiles.GroupOwnership.Drivers
                 RestrictAccess = model.RestrictAccess
             });
 
-            return Edit(contentTypePartDefinition, context.Updater);
+            return Edit(contentTypePartDefinition, context);
         }
 
         #endregion Edit

@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Etch.OrchardCore.UserProfiles.SubscriptionGroups.Models;
 using Etch.OrchardCore.UserProfiles.SubscriptionGroups.Services;
 using Etch.OrchardCore.UserProfiles.SubscriptionGroups.ViewModels;
@@ -47,15 +47,15 @@ namespace Etch.OrchardCore.UserProfiles.Subscriptions.Drivers
             });
         }
 
-        public async override Task<IDisplayResult> UpdateAsync(SubscriptionGroupSelectPart part, IUpdateModel updater)
+        public async override Task<IDisplayResult> UpdateAsync(SubscriptionGroupSelectPart part, UpdatePartEditorContext context)
         {
             var model = new SubscriptionGroupSelectPartViewModel();
 
-            if (await updater.TryUpdateModelAsync(model, Prefix)) {
+            if (await context.Updater.TryUpdateModelAsync(model, Prefix)) {
                 part.SubscriptionGroup = model.SubscriptionGroup;
             }
 
-            return Edit(part);
+            return Edit(part, context);
         }
 
         #endregion

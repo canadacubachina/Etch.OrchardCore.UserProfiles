@@ -1,4 +1,5 @@
-﻿using Etch.OrchardCore.UserProfiles.Grouping.Indexes;
+using Etch.OrchardCore.UserProfiles.GroupField.Models;
+using Etch.OrchardCore.UserProfiles.Grouping.Indexes;
 using Etch.OrchardCore.UserProfiles.Grouping.Models;
 using Etch.OrchardCore.UserProfiles.Grouping.Services;
 using Etch.OrchardCore.UserProfiles.Grouping.Settings;
@@ -7,7 +8,6 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using System;
 using System.Linq;
@@ -51,12 +51,12 @@ namespace Etch.OrchardCore.UserProfiles.Grouping.Drivers
             {
                 model.Items = query.OrderBy(x => x.DisplayText);
                 model.PartDefinition = context.TypePartDefinition;
-                model.Settings = GetSettings(part);
+                model.Settings = context.TypePartDefinition.GetSettings<ProfileGroupPartSettings>(); //GetSettings(part);
             })
             .Location("Parts#Profiles:5");
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(ProfileGroupPart part, IUpdateModel updater, UpdatePartEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ProfileGroupPart part, UpdatePartEditorContext context)
         {
             var model = new ProfileGroupPartViewModel();
 
@@ -102,12 +102,12 @@ namespace Etch.OrchardCore.UserProfiles.Grouping.Drivers
             }
         }
 
-        private ProfileGroupPartSettings GetSettings(ProfileGroupPart part)
-        {
-            var contentTypeDefinition = _contentDefinitionManager.GetTypeDefinition(part.ContentItem.ContentType);
-            var contentTypePartDefinition = contentTypeDefinition.Parts.FirstOrDefault(x => string.Equals(x.PartDefinition.Name, nameof(ProfileGroupPart), StringComparison.Ordinal));
-            return contentTypePartDefinition.Settings.ToObject<ProfileGroupPartSettings>();
-        }
+        //private ProfileGroupPartSettings GetSettings(ProfileGroupPart part)
+        //{
+        //    var contentTypeDefinition = _contentDefinitionManager.GetTypeDefinition(part.ContentItem.ContentType);
+        //    var contentTypePartDefinition = contentTypeDefinition.Parts.FirstOrDefault(x => string.Equals(x.PartDefinition.Name, nameof(ProfileGroupPart), StringComparison.Ordinal));
+        //    return contentTypePartDefinition.Settings.ToObject<ProfileGroupPartSettings>();
+        //}
 
         #endregion
     }

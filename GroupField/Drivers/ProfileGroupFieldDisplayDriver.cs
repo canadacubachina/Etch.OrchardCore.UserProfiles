@@ -1,4 +1,4 @@
-﻿using Etch.OrchardCore.UserProfiles.GroupField.Models;
+using Etch.OrchardCore.UserProfiles.GroupField.Models;
 using Etch.OrchardCore.UserProfiles.GroupField.ViewModels;
 using Etch.OrchardCore.UserProfiles.Grouping.Services;
 using Microsoft.Extensions.Localization;
@@ -7,7 +7,6 @@ using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentManagement.Records;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using System;
 using System.Collections.Generic;
@@ -92,11 +91,11 @@ namespace Etch.OrchardCore.UserProfiles.GroupField.Drivers
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(ProfileGroupField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ProfileGroupField field, UpdateFieldEditorContext context)
         {
             var model = new EditProfileGroupFieldViewModel();
 
-            if (await updater.TryUpdateModelAsync(model, Prefix, m => m.ProfileGroupContentItemIds))
+            if (await context.Updater.TryUpdateModelAsync(model, Prefix, m => m.ProfileGroupContentItemIds))
             {
                 field.ProfileGroupContentItemIds = SplitIds(model.ProfileGroupContentItemIds);
                 var groupItems = await _session.Query<ContentItem>()
@@ -105,14 +104,14 @@ namespace Etch.OrchardCore.UserProfiles.GroupField.Drivers
                 field.ProfileGroupNames = string.Join(", ", groupItems.Select(x => x.DisplayText));
             }
 
-            var settings = context.PartFieldDefinition.Settings.ToObject<ProfileGroupFieldSettings>();
+            var settings = context.PartFieldDefinition.GetSettings<ProfileGroupFieldSettings>();
             if (settings.Required && field.ProfileGroupContentItemIds.Count == 0)
             {
-                updater.ModelState.AddModelError(Prefix, T["{0} is required.", context.PartFieldDefinition.DisplayName()]);
+                context.Updater.ModelState.AddModelError(Prefix, T["{0} is required.", context.PartFieldDefinition.DisplayName()]);
             }
             if (!settings.Multiple && field.ProfileGroupContentItemIds.Count > 1)
             {
-                updater.ModelState.AddModelError(Prefix, T["{0} should only have a single item selected, please remove items.", context.PartFieldDefinition.DisplayName()]);
+                context.Updater.ModelState.AddModelError(Prefix, T["{0} should only have a single item selected, please remove items.", context.PartFieldDefinition.DisplayName()]);
             }
 
             return await EditAsync(field, context);

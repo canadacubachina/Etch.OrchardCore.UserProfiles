@@ -1,4 +1,4 @@
-﻿using Etch.OrchardCore.UserProfiles.GroupField.Models;
+using Etch.OrchardCore.UserProfiles.GroupField.Models;
 using Etch.OrchardCore.UserProfiles.GroupOwnership.Indexes;
 using Etch.OrchardCore.UserProfiles.GroupOwnership.Models;
 using OrchardCore.ContentManagement.Metadata;
@@ -29,7 +29,7 @@ namespace Etch.OrchardCore.UserProfiles.GroupOwnership
 
         public int Create()
         {
-            _contentDefinitionManager.AlterPartDefinition(nameof(ProfileGroupOwnershipPart), builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync(nameof(ProfileGroupOwnershipPart), builder => builder
                 .Attachable()
                 .WithDisplayName("Profile Group Ownership")
                 .WithDescription("Add ability to assign ownership to a Profile Group, optionally restricting access.")

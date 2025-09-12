@@ -1,4 +1,4 @@
-﻿using Etch.OrchardCore.UserProfiles.GroupField.Models;
+using Etch.OrchardCore.UserProfiles.GroupField.Models;
 using Etch.OrchardCore.UserProfiles.Grouping.Services;
 using Etch.OrchardCore.UserProfiles.GroupOwnership.Models;
 using Etch.OrchardCore.UserProfiles.GroupOwnership.Services;
@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using System.Threading.Tasks;
 
@@ -83,13 +82,13 @@ namespace Etch.OrchardCore.UserProfiles.GroupOwnership.Drivers
             {
                 model.Part = part;
                 model.PartDefinition = context.TypePartDefinition;
-                model.Settings = context.TypePartDefinition.Settings.ToObject<ProfileGroupOwnershipPartSettings>();
+                model.Settings = context.TypePartDefinition.GetSettings<ProfileGroupOwnershipPartSettings>();
 
                 model.RestrictAccess = part.RestrictAccess;
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(ProfileGroupOwnershipPart part, IUpdateModel updater, UpdatePartEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ProfileGroupOwnershipPart part, UpdatePartEditorContext context)
         {
             var model = new EditProfileGroupOwnershipPartViewModel();
 

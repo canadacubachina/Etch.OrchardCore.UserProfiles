@@ -1,7 +1,9 @@
-﻿using Etch.OrchardCore.UserProfiles.GroupField.Models;
+using Etch.OrchardCore.UserProfiles.GroupField.Models;
 using Etch.OrchardCore.UserProfiles.GroupField.ViewModels;
+using OrchardCore.ContentFields.Settings;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
 using System.Threading.Tasks;
 
@@ -13,11 +15,15 @@ namespace Etch.OrchardCore.UserProfiles.GroupField.Drivers
 
         #region Edit
 
-        public override IDisplayResult Edit(ContentPartFieldDefinition partFieldDefinition)
+        public override IDisplayResult Edit(ContentPartFieldDefinition partFieldDefinition, BuildEditorContext context)
         {
             return Initialize<ProfileGroupFieldSettings>("ProfileGroupFieldSettings_Edit", model =>
             {
-                partFieldDefinition.PopulateSettings<ProfileGroupFieldSettings>(model);
+                var settings = partFieldDefinition.GetSettings<ProfileGroupFieldSettings>();
+
+                model.Hint = settings.Hint;
+                model.Multiple = settings.Multiple;
+                model.Required = settings.Required;
             })
             .Location("Content");
         }
@@ -31,7 +37,7 @@ namespace Etch.OrchardCore.UserProfiles.GroupField.Drivers
                 context.Builder.WithSettings(model);
             }
 
-            return Edit(partFieldDefinition);
+            return Edit(partFieldDefinition, context);
         }
 
         #endregion Edit

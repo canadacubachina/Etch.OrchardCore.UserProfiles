@@ -1,4 +1,4 @@
-﻿using OrchardCore.ContentManagement.Metadata;
+using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Data.Migration;
 
@@ -25,22 +25,22 @@ namespace Etch.OrchardCore.UserProfiles.SubscriptionGroups
 
         public int Create()
         {
-            _contentDefinitionManager.AlterPartDefinition("SubscriptionGroupPart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("SubscriptionGroupPart", builder => builder
                 .WithDescription("Properties for subscription groups."));
 
-            _contentDefinitionManager.AlterTypeDefinition(Constants.ContentSubscriptionGroupTypeName, type => type
+            _contentDefinitionManager.AlterTypeDefinitionAsync(Constants.ContentSubscriptionGroupTypeName, type => type
                 .WithPart("TitlePart")
                 .WithPart("SubscriptionGroupPart")
                 .Creatable()
                 .Listable()
             );
 
-            _contentDefinitionManager.AlterPartDefinition("SubscriptionGroupSelectPart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("SubscriptionGroupSelectPart", builder => builder
                 .Attachable()
                 .WithDescription("Add ability to add group select to subscription content types.")
             );
 
-            _contentDefinitionManager.AlterPartDefinition("SubscriptionGroupAccessPart", builder => builder
+            _contentDefinitionManager.AlterPartDefinitionAsync("SubscriptionGroupAccessPart", builder => builder
                 .Attachable()
                 .WithDescription("Add ability to add subscription group access to content types.")
             );

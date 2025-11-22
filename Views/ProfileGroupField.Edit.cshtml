@@ -1,4 +1,4 @@
-﻿@using Etch.OrchardCore.UserProfiles.GroupField.Models;
+@using Etch.OrchardCore.UserProfiles.GroupField.Models;
 
 @model Etch.OrchardCore.UserProfiles.GroupField.ViewModels.EditProfileGroupFieldViewModel
 
@@ -23,13 +23,8 @@
     var hint = settings.Hint;
 }
 
-<script asp-src="~/Etch.OrchardCore.UserProfiles/Scripts/grouping/index.js" asp-name="profilePicker" at="Foot" depends-on="vuejs, vuemultiselect"></script>
-<style asp-src="~/OrchardCore.ContentFields/Styles/contentPicker.min.css" debug-src="~/OrchardCore.ContentFields/Styles/contentPicker.css"></style>
-<script asp-src="https://vuejs.org/js/vue.min.js" debug-src="https://vuejs.org/js/vue.js" asp-name="vuejs" at="Foot"></script>
-<script asp-src="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.js" asp-name="vuemultiselect" at="Foot"></script>
-<style asp-src="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css"></style>
-<script asp-src="https://cdn.jsdelivr.net/sortable/1.4.2/Sortable.min.js" debug-src="https://cdn.jsdelivr.net/sortable/1.4.2/Sortable.js" asp-name="sortable" at="Foot"></script>
-<script asp-src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.14.1/vuedraggable.min.js" debug-src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.14.1/vuedraggable.js" asp-name="vuedraggable" depends-on="vuejs, sortable" at="Foot"></script>
+<script asp-src="~/Etch.OrchardCore.UserProfiles/Scripts/grouping/index.js" asp-name="profilePicker" at="Foot" depends-on="vue-multiselect-wrapper"></script>
+<style asp-src="~/OrchardCore.ContentFields/Styles/contentPicker.min.css" debug-src="~/OrchardCore.ContentFields/Styles/contentPicker.css" depends-on="vue-multiselect:2"></style>
 
 <p> TEST </p>
 <h5>

@@ -60,7 +60,7 @@ namespace Etch.OrchardCore.UserProfiles.GroupOwnership.Drivers
             var ids = part.Get<ProfileGroupField>(GroupOwnershipConstants.GroupFieldName)?.ProfileGroupContentItemIds;
 
             // If the user has the required profile group allow viewing
-            if (_ownershipAuthorizationService.CanViewContentAsync(_httpContextAccessor.HttpContext.User, ids).Result)
+            if (_ownershipAuthorizationService.CanViewContentAsync(_httpContextAccessor.HttpContext?.User, ids).Result)
             {
                 return null;
             }

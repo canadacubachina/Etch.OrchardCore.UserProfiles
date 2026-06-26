@@ -27,38 +27,38 @@ namespace Etch.OrchardCore.UserProfiles.Grouping
 
         #region Migrations
 
-        public int Create()
+        public async Task<int> Create()
         {
-            _contentDefinitionManager.AlterPartDefinitionAsync("ProfileGroupPart", builder => builder
+           await _contentDefinitionManager.AlterPartDefinitionAsync("ProfileGroupPart", builder => builder
                 .Attachable()
                 .WithDescription("Add ability to group user profiles."));
 
-            SchemaBuilder.CreateMapIndexTable<ProfileGroupPartIndex>(table => { });
+           await SchemaBuilder.CreateMapIndexTableAsync<ProfileGroupPartIndex>(table => { });
 
-            SchemaBuilder.CreateMapIndexTable<ProfileGroupedPartIndex>(table => table
+          await  SchemaBuilder.CreateMapIndexTableAsync<ProfileGroupedPartIndex>(table => table
                 .Column<string>("GroupContentItemId", c => c.WithLength(26))
             );
 
-            SchemaBuilder.AlterTable(nameof(ProfileGroupedPartIndex), table => table
+          await  SchemaBuilder.AlterTableAsync(nameof(ProfileGroupedPartIndex), table => table
                 .CreateIndex("IDX_ProfileGroupedPartIndex_GroupContentItemId", "GroupContentItemId")
             );
 
-            _contentDefinitionManager.AlterTypeDefinitionAsync(Constants.ContentTypeName, type => type
+           await _contentDefinitionManager.AlterTypeDefinitionAsync(Constants.ContentTypeName, type => type
                 .WithPart("ProfileGroupedPart")
             );
 
             return 2;
         }
 
-        public int UpdateFrom1()
+        public async Task<int> UpdateFrom1()
         {
-            SchemaBuilder.CreateMapIndexTable<ProfileGroupPartIndex>(table => { });
+           await SchemaBuilder.CreateMapIndexTableAsync<ProfileGroupPartIndex>(table => { });
             return 2;
         }
 
-        public int UpdateFrom2()
+        public async Task<int> UpdateFrom2()
         {
-            _contentDefinitionManager.MigratePartSettingsAsync<ProfileGroupPart, ProfileGroupPartSettings>();
+            await _contentDefinitionManager.MigratePartSettingsAsync<ProfileGroupPart, ProfileGroupPartSettings>();
             return 3;
         }
 

@@ -27,9 +27,9 @@ namespace Etch.OrchardCore.UserProfiles.GroupOwnership
 
         #region Migrations
 
-        public int Create()
+        public async Task<int> Create()
         {
-            _contentDefinitionManager.AlterPartDefinitionAsync(nameof(ProfileGroupOwnershipPart), builder => builder
+           await _contentDefinitionManager.AlterPartDefinitionAsync(nameof(ProfileGroupOwnershipPart), builder => builder
                 .Attachable()
                 .WithDisplayName("Profile Group Ownership")
                 .WithDescription("Add ability to assign ownership to a Profile Group, optionally restricting access.")
@@ -43,11 +43,11 @@ namespace Etch.OrchardCore.UserProfiles.GroupOwnership
                     })
                 ));
 
-            SchemaBuilder.CreateMapIndexTable<GroupOwnershipIndex>(table => table
+          await  SchemaBuilder.CreateMapIndexTableAsync<GroupOwnershipIndex>(table => table
                 .Column<string>(nameof(GroupOwnershipIndex.GroupContentItemId), c => c.WithLength(26))
             );
 
-            SchemaBuilder.AlterTable(nameof(GroupOwnershipIndex), table => table
+          await  SchemaBuilder.AlterTableAsync(nameof(GroupOwnershipIndex), table => table
                 .CreateIndex($"IDX_{nameof(GroupOwnershipIndex)}_{nameof(GroupOwnershipIndex.GroupContentItemId)}", nameof(GroupOwnershipIndex.GroupContentItemId))
             );
 

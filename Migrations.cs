@@ -40,22 +40,22 @@ namespace Etch.OrchardCore.UserProfiles
 
         #region Migrations
 
-        public int Create()
+        public async Task<int> Create()
         {
-            _contentDefinitionManager.AlterPartDefinitionAsync("ProfilePart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("ProfilePart", builder => builder
                 .WithDescription("Links content item to user.")
                 .WithDefaultPosition("0")
             );
 
-            _contentDefinitionManager.AlterTypeDefinitionAsync(Constants.ContentTypeName, type => type
+           await _contentDefinitionManager.AlterTypeDefinitionAsync(Constants.ContentTypeName, type => type
                 .WithPart("ProfilePart")
             );
 
-            SchemaBuilder.CreateMapIndexTable<ProfilePartIndex>(table => table
+            await SchemaBuilder.CreateMapIndexTableAsync<ProfilePartIndex>(table => table
                 .Column<string>("UserIdentifier", c => c.WithLength(UserIdenityMaxLength))
             );
 
-            SchemaBuilder.AlterTable(nameof(ProfilePartIndex), table => table
+          await  SchemaBuilder.AlterTableAsync(nameof(ProfilePartIndex), table => table
                 .CreateIndex("IDX_ProfilePartIndex_UserIdentifier", "UserIdentifier")
             );
 
@@ -69,13 +69,13 @@ namespace Etch.OrchardCore.UserProfiles
             return 2;
         }
 
-        public int UpdateFrom1()
+        public async Task<int> UpdateFrom1()
         {
-            SchemaBuilder.CreateMapIndexTable<ProfilePartIndex>(table => table
+           await SchemaBuilder.CreateMapIndexTableAsync<ProfilePartIndex>(table => table
                 .Column<string>("UserIdentifier", c => c.WithLength(UserIdenityMaxLength))
             );
 
-            SchemaBuilder.AlterTable(nameof(ProfilePartIndex), table => table
+           await SchemaBuilder.AlterTableAsync(nameof(ProfilePartIndex), table => table
                 .CreateIndex("IDX_ProfilePartIndex_UserIdentifier", "UserIdentifier")
             );
 
